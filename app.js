@@ -1,8 +1,14 @@
+const button = document.querySelector("#btns");
+button.addEventListener("click", (event) => playRound(getComputerChoice, event));
+
+
 function getComputerChoice(){
     let number = Math.floor(Math.random() * 10);
     if (number === 0){
          number += Math.floor(Math.random() * 10);
     }
+
+    return "Rock";
 
     if (number <= 3) {
         return "Rock";
@@ -13,79 +19,99 @@ function getComputerChoice(){
     }   
 }
 
+let humanScore = 0;
+let computerScore = 0;
+let totalGame = 0;
 
-function getHumanChoice(){
-    let choice = prompt("Rock, Paper or Scissors?").toUpperCase();
+function playRound(computerChoice, event){
 
-    if (choice === "ROCK" || choice === "PAPER" || choice === "SCISSORS"){
-        return choice;
-    } else {
-        alert("Please enter a valid choice");
-    }
-}
-
- 
+            const humanChoice = event.target;
+            const human = humanChoice.id.toUpperCase();
+            const computer = computerChoice().toUpperCase();
 
 
-function playGame(){
-    let totalGame = 0;     
-    let humanScore = 0;
-    let computerScore = 0;
-
-    function playRound(human, computer){
-        switch (human) {
-            case "ROCK":
-                if (computer === "SCISSORS") {
-                    console.log(`You Win! ${human} beats ${computer}`);
-                    humanScore += 1;
-                } else if (computer === "PAPER"){
-                    console.log(`You Lose! ${computer} beats ${human}`);
-                    computerScore += 1;
-                } else {
-                    console.log(`It's a draw between ${human} & ${computer}!`);
-
-                }
-                break;
+            switch (human) {
+                case "ROCK":
+                    if (computer === "SCISSORS") {
+                        element.textContent =`You Win! ${human} beats ${computer}`;
+                        humanScore += 1;
+                    } else if (computer === "PAPER"){
+                        element.textContent =`You Lose! ${computer} beats ${human}`;
+                        computerScore += 1;
+                    } else {
+                        element.textContent =`It's a draw between ${human} & ${computer}!`;
+    
+                    }
+                    break;
+                
+                case "PAPER":
+                    if (computer === "ROCK") {
+                        element.textContent =`You Win! ${human} beats ${computer}`;
+                        humanScore += 1;
+                    } else if (computer === "SCISSORS"){
+                        element.textContent =`You Lose! ${computer} beats ${human}`;
+                        computerScore += 1;
+                    } else {
+                        element.textContent =`It's a draw between ${human} & ${computer}!`;
+                    }
+                    break;
+                
+                case "SCISSORS":
+                    if (computer === "PAPER") {
+                        element.textContent =`You Win! ${human} beats ${computer}`;
+                        humanScore += 1;
+                    } else if (computer === "ROCK"){
+                        element.textContent =`You Lose! ${computer} beats ${human}`;
+                        computerScore += 1;
+                    } else {
+                        element.textContent =`It's a draw between ${human} & ${computer}!`;
+                    }
+                    break;
             
-            case "PAPER":
-                if (computer === "ROCK") {
-                    console.log(`You Win! ${human} beats ${computer}`);
-                    humanScore += 1;
-                } else if (computer === "SCISSORS"){
-                    console.log(`You Lose! ${computer} beats ${human}`);
-                    computerScore += 1;
+                default:
+                    break;
+            }
+            score.textContent = "Human score is: " + humanScore + " & Computer score is: " + computerScore ;
+            totalGame += 1;
+
+            if (totalGame == 5) {
+
+                if (humanScore === computerScore) {
+                    gameScore.textContent = "It's a draw! Well-played!"
+                } else if (humanScore > computerScore) {
+                    gameScore.textContent = "HUMAN WINS!";
                 } else {
-                    console.log(`It's a draw between ${human} & ${computer}!`);
+                    gameScore.textContent = "COMPUTER WINS!";
                 }
-                break;
-            
-            case "SCISSORS":
-                if (computer === "PAPER") {
-                    console.log(`You Win! ${human} beats ${computer}`);
-                    humanScore += 1;
-                } else if (computer === "ROCK"){
-                    console.log(`You Lose! ${computer} beats ${human}`);
-                    computerScore += 1;
-                } else {
-                    console.log(`It's a draw between ${human} & ${computer}!`);
-                }
-                break;
+
+                reset.textContent = "Reset";
+                results.appendChild(reset);
+
+                reset.addEventListener("click", () => {
+                    humanScore = 0;
+                    computerScore = 0;
+                    totalGame = 0;
+                    element.textContent ="";
+                    score.textContent ="";
+                    gameScore.textContent="";
+                    results.removeChild(reset);
+                });   
+            }
+        }      
         
-            default:
-                break;
-        }
-    }
 
-    while (totalGame<5) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice().toUpperCase();  
-        playRound(humanSelection, computerSelection);
-        totalGame += 1;
-    }
-    
-    console.log("Human: " + humanScore);
-    console.log("Computer: " + computerScore);
-    
-}
 
-playGame();
+const results = document.querySelector(".results");
+const element = document.createElement("p");
+results.appendChild(element);
+const score = document.createElement("p");
+results.appendChild(score);
+const gameScore = document.createElement("p");
+results.appendChild(gameScore);
+const reset = document.createElement("button");
+
+
+
+
+    
+    
